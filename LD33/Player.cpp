@@ -50,9 +50,11 @@ void Player::attack(){
 		float range = 80.0f;
 		EntityList* entities = entityManager_->getEntities();
 		for (auto& it : *entities){
-			float dist = sfld::Vector2f(it->getPosition() - getPosition()).length();
-			if (dist <= range){
-				it->damaged(100);
+			if (it.get() != this){
+				float dist = sfld::Vector2f(it->getPosition() - getPosition()).length();
+				if (dist <= range){
+					it->damaged(100);
+				}
 			}
 		}
 	}
