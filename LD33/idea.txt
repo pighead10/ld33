@@ -1,0 +1,9 @@
+You are a vampire/werewolf/other monster that only is a monster when it is dark/moon/whatever
+You do not want to be a monster
+Have to balance trying to find a cure with not killing everyone when you turn into a monster
+
+-Monster activates based on movement
+-Can reposition blocks/etc to remove line of sight from guards
+-Have to get to serum which cures you temporarily
+-Limit on amount of people you can kill
+-Guards kill you extremely quickly, killing them is sometimes necessary
