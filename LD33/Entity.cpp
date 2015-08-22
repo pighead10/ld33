@@ -9,7 +9,7 @@ Entity::~Entity() = default;
 void Entity::constructEntity(
 	ResourceManager<sf::Texture, std::string>* resourceManager, std::string spriteName,
 	EntityManager* entityManager, sfld::Vector2f position, bool walkthrough,
-	bool seethrough, ENTITY_SHAPE shape, ENTITY_DYNAMIC dynamic){
+	bool seethrough, ENTITY_SHAPE shape, ENTITY_DYNAMIC dynamic,ENTITY_TYPE type){
 	resourceManager_ = resourceManager;
 	entityManager_ = entityManager;
 	sprite_ = sf::Sprite(resourceManager_->get(spriteName));
@@ -19,6 +19,16 @@ void Entity::constructEntity(
 	seethrough_ = seethrough;
 	shape_ = shape;
 	dynamic_ = dynamic;
+	type_ = type;
+	destroyed_ = false;
+}
+
+bool Entity::isDestroyed() const{
+	return destroyed_;
+}
+
+void Entity::destroy(){
+	destroyed_ = true;
 }
 
 void Entity::update(int frameTime){
@@ -34,6 +44,13 @@ Entity::ENTITY_SHAPE Entity::getShape() const{
 
 Entity::ENTITY_DYNAMIC Entity::getDynamic() const{
 	return dynamic_;
+}
+
+void Entity::damaged(int amount){
+}
+
+Entity::ENTITY_TYPE Entity::getType() const{
+	return type_;
 }
 
 bool Entity::isWalkthrough() const{
@@ -134,11 +151,18 @@ void Entity::move(sfld::Vector2f direction, int frameTime, float magnitude){
 				}
 			}
 			else{//otherwise, it's a circle, and we are only concerned with checking if they touch, no more
-				if (dist <= (getRadius() + it->getRadius())){
-					collided(it.get());
+				if (dist <= TILE_SIZE*1.5f){
+					MTV mtv(Collision::getCollision(getSprite(), getShape(), it->getSprite(), it->getShape()));
+					if (!(mtv.axis == MTV::NONE.axis && mtv.overlap == MTV::NONE.overlap)){
+						collided(it.get());
+					}
 				}
 			}
 		}
+	}
+	if (direction != sf::Vector2f(0, 0)){
+		//lastdir = dir;
+		sprite_.setRotation(maths::toDegrees(atan2(direction.y, direction.x)));
 	}
 	doOffset(direction*(float)frameTime*magnitude);
 }

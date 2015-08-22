@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 
 class EntityManager;
+class ParticleEngine;
 
 class GameState : public BaseState{
 public:
@@ -21,4 +22,5 @@ public:
 private:
 	ResourceManager<sf::Texture, std::string> resourceManager_;
 	std::unique_ptr<EntityManager> entityManager_;
+	std::unique_ptr<ParticleEngine> particleEngine_;
 };

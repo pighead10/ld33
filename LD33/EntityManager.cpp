@@ -17,6 +17,15 @@ void EntityManager::update(int frameTime){
 	for (auto& it : entities_){
 		it->update(frameTime);
 	}
+	for (auto& it = entities_.begin(); it != entities_.end();){
+		if ((*it)->isDestroyed()){
+			it = entities_.erase(it);
+		}
+		else{
+			it++;
+		}
+	}
+
 	for (auto& it : push_queue_){
 		entities_.push_back(std::move(it));
 	}
