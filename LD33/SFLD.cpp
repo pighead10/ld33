@@ -24,7 +24,7 @@ void SFLD::exit(){
 void SFLD::init(){
 	srand((unsigned)time(NULL));
 	exit_ = false;
-	sf::VideoMode vm(1024,768);
+	sf::VideoMode vm(1024,768); //32x24
 	window_->create(vm,"Ludum Dare 33");
 	stateManager_.push(new GameState()); //push starting state!
 }

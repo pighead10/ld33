@@ -23,6 +23,14 @@ void Entity::constructEntity(
 	destroyed_ = false;
 }
 
+void Entity::setWalkthrough(bool walkthrough){
+	walkthrough_ = walkthrough;
+}
+
+void Entity::setSeethrough(bool seethrough){
+	seethrough_ = seethrough;
+}
+
 bool Entity::isDestroyed() const{
 	return destroyed_;
 }
@@ -99,7 +107,7 @@ bool Entity::contains(sfld::Vector2f point) const{
 bool Entity::canSee(Entity* other) const{
 	std::vector<sfld::Vector2f> point_list;
 	sfld::Vector2f dir = sfld::Vector2f(other->getPosition() - getPosition()).normalise();
-	float increment = (float)TILE_SIZE*0.8f;
+	float increment = (float)TILE_SIZE*0.5f;
 	sfld::Vector2f point = getPosition();
 	float dist = sfld::Vector2f(other->getPosition() - getPosition()).length();
 	
@@ -155,6 +163,9 @@ void Entity::move(sfld::Vector2f direction, int frameTime, float magnitude){
 					MTV mtv(Collision::getCollision(getSprite(), getShape(), it->getSprite(), it->getShape()));
 					if (!(mtv.axis == MTV::NONE.axis && mtv.overlap == MTV::NONE.overlap)){
 						collided(it.get());
+						if (it->getDynamic() == DYNAMIC_STATIC){ //because then it won't resolve its own collisions
+							it->collided(this);
+						}
 					}
 				}
 			}

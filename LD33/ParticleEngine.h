@@ -9,11 +9,11 @@ public:
 	ParticleEngine();
 	~ParticleEngine();
 
-	
-
 	void update(double frameTime);
 	void renderParticles(sf::RenderTarget* target);
 	void renderStatics(sf::RenderTarget* target);
+
+	void clear();
 
 	std::shared_ptr<Particle> generateParticle(const sf::Vector2f& pos,double last_time,const sf::Color& colour,
 		float radius,const sf::Vector2f& direction,float speed);

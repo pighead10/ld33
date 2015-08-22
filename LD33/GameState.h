@@ -6,6 +6,9 @@
 
 class EntityManager;
 class ParticleEngine;
+class Level;
+
+typedef std::vector<std::unique_ptr<Level>> LevelList;
 
 class GameState : public BaseState{
 public:
@@ -20,6 +23,12 @@ public:
 	void update(int frameTime);
 	void render(sf::RenderTarget* target);
 private:
+	void advanceLevel();
+
+	LevelList levels_;
+	int levelnum_;
+	Level* currentLevel_;
+
 	ResourceManager<sf::Texture, std::string> resourceManager_;
 	std::unique_ptr<EntityManager> entityManager_;
 	std::unique_ptr<ParticleEngine> particleEngine_;

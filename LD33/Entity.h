@@ -19,7 +19,9 @@ public:
 		TYPE_PLAYER,
 		TYPE_GUARD,
 		TYPE_BULLET,
-		TYPE_WALL
+		TYPE_WALL,
+		TYPE_SWITCH,
+		TYPE_SERUM
 	};
 	Entity();
 	~Entity();
@@ -47,6 +49,7 @@ public:
 	virtual void damaged(int amount);
 
 	bool isDestroyed() const;
+	void setPosition(sfld::Vector2f position);
 protected:
 	void destroy();
 
@@ -54,11 +57,14 @@ protected:
 	void move(sfld::Vector2f direction,int frameTime,float magnitude); //moves entity, including collisions with walls
 
 	void doOffset(sfld::Vector2f offset);
-	void setPosition(sfld::Vector2f position);
+	
 
 	ResourceManager<sf::Texture, std::string>* resourceManager_;
 	EntityManager* entityManager_;
 	sf::Sprite sprite_;
+
+	void setWalkthrough(bool walkthrough);
+	void setSeethrough(bool seethough);
 private:
 	bool destroyed_;
 

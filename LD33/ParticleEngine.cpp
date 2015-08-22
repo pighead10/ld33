@@ -10,6 +10,13 @@ ParticleEngine::~ParticleEngine(){
 	particles.clear();
 }
 
+void ParticleEngine::clear(){
+	particlecounter = 0;
+	staticcounter = 0;
+	particles.clear();
+	statics.clear();
+}
+
 void ParticleEngine::update(double frameTime){
 	std::map<std::string,std::shared_ptr<Particle>>::iterator it;
 	for(it = particles.begin();it != particles.end();){

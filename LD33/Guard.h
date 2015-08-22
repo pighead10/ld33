@@ -7,7 +7,7 @@ class Player;
 
 class Guard : public Entity{
 public:
-	Guard(ResourceManager<sf::Texture, std::string>* resourceManager, EntityManager* entityManager, sfld::Vector2f position,Player* player,ParticleEngine* particleEngine);
+	Guard(ResourceManager<sf::Texture, std::string>* resourceManager, EntityManager* entityManager, sfld::Vector2f position, Player* player, ParticleEngine* particleEngine, std::vector<std::pair<sfld::Vector2f, int>> dirList = std::vector<std::pair<sfld::Vector2f, int>>());
 	void update(int frameTime);
 	void damaged(int amount);
 private:
@@ -21,4 +21,10 @@ private:
 	int reload_timer;
 	int reload_threshold;
 	float ideal_dist;
+
+	std::vector<std::pair<sfld::Vector2f, int>> dirList_;
+	int dirnum_;
+	int dirtimer_;
+
+	float speed_;
 };
