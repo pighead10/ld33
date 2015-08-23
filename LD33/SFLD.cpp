@@ -59,8 +59,9 @@ void SFLD::handleSfmlEvents(){
 
 		//don't allow resize!
 		if (evt.type == sf::Event::Resized){
-			window_->setSize(sf::Vector2u(1024, 768));
+		//	window_->setSize(sf::Vector2u(1024, 768));
 		}
+		bool pressed = false;
 		stateManager_.sfmlEvent(evt);
 	}
 }

@@ -27,7 +27,11 @@ public:
 
 	void guardDied();
 	int getDeadGuards() const;
+	void playerDied();
+	bool isPlayerDead() const;
 private:
+	sf::RenderTexture background;
+	bool playerDead;
 	int deadGuards;
 
 	sf::View view;

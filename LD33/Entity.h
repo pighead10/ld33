@@ -21,7 +21,7 @@ public:
 		TYPE_BULLET,
 		TYPE_WALL,
 		TYPE_SWITCH,
-		TYPE_SERUM
+		TYPE_SERUM,
 	};
 	Entity();
 	~Entity();
@@ -51,6 +51,7 @@ public:
 	bool isDestroyed() const;
 	void setPosition(sfld::Vector2f position);
 protected:
+	bool rotating_;
 	void destroy();
 
 	void centreOrigin();

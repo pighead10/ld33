@@ -21,6 +21,7 @@ void Entity::constructEntity(
 	dynamic_ = dynamic;
 	type_ = type;
 	destroyed_ = false;
+	rotating_ = false;
 }
 
 void Entity::setWalkthrough(bool walkthrough){
@@ -111,7 +112,7 @@ bool Entity::canSee(Entity* other) const{
 	sfld::Vector2f point = getPosition();
 	float dist = sfld::Vector2f(other->getPosition() - getPosition()).length();
 	
-	while (dist > 0){
+	while (dist > 0){ //BUG!
 		point = point + increment*dir;
 		point_list.push_back(point);
 		dist -= increment;
@@ -171,7 +172,7 @@ void Entity::move(sfld::Vector2f direction, int frameTime, float magnitude){
 			}
 		}
 	}
-	if (direction != sf::Vector2f(0, 0)){
+	if (direction != sf::Vector2f(0, 0) && !rotating_){
 		//lastdir = dir;
 		sprite_.setRotation(maths::toDegrees(atan2(direction.y, direction.x)));
 	}

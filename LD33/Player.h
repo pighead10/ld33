@@ -11,6 +11,7 @@ public:
 
 	bool isMonster() const;
 	void damaged(int amount);
+	bool immune;
 private:
 	void attack();
 

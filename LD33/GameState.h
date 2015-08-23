@@ -28,6 +28,7 @@ private:
 	LevelList levels_;
 	int levelnum_;
 	Level* currentLevel_;
+	sf::Font font;
 
 	ResourceManager<sf::Texture, std::string> resourceManager_;
 	std::unique_ptr<EntityManager> entityManager_;

@@ -14,8 +14,10 @@ void Projectile::update(int frameTime){
 
 void Projectile::collided(Entity* other){
 	if (other->getType() == TYPE_WALL){
-		particleEngine_->generateMiniExplosionEffect(getPosition());
-		destroy();
+		if (!other->isWalkthrough()){
+			particleEngine_->generateMiniExplosionEffect(getPosition());
+			destroy();
+		}
 	}
 	else if (other->getType() == target_){
 		other->damaged(damage_);

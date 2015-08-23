@@ -8,14 +8,18 @@ move_timer(0), monster_threshold(1536), state_(STATE_NORMAL),max_monster(3000),r
 health_(100),particleEngine_(particleEngine){
 	constructEntity(resourceManager, "player", entityManager, position, true, true, SHAPE_CIRCLE, DYNAMIC_MOVING,TYPE_PLAYER);
 	turnIntoNormal();
+	immune = false;
 }
 
 void Player::damaged(int amount){
-	health_ -= amount;
-	if (health_ <= 0){
-		particleEngine_->generateExplosionEffect(getPosition());
-		particleEngine_->generateBloodEffect(getPosition());
-		destroy();
+	if (!immune){
+		health_ -= amount;
+		if (health_ <= 0){
+			particleEngine_->generateExplosionEffect(getPosition());
+			particleEngine_->generateBloodEffect(getPosition());
+			entityManager_->playerDied();
+			destroy();
+		}
 	}
 }
 
@@ -41,6 +45,7 @@ void Player::turnIntoNormal(){
 
 void Player::attack(){
 	if (reload_timer >= reload_threshold){
+		rotating_ = true;
 		entityManager_->screenShake(2.5f, 500);
 		sprite_.setTexture(resourceManager_->get("player_attacking"), true);
 		centreOrigin();
@@ -110,7 +115,7 @@ void Player::update(int frameTime){
 			else{
 				sprite_.setTexture(resourceManager_->get("player"), true);
 			}
-
+			rotating_ = false;
 			centreOrigin();
 			in_animation = false;
 		}

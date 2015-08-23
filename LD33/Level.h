@@ -11,6 +11,7 @@ class Serum;
 class Level{
 public:
 	Level();
+	explicit Level(sf::Font* font);
 	~Level();
 
 	virtual void sfmlEvent(sf::Event evt);
@@ -19,8 +20,45 @@ public:
 	virtual void render(sf::RenderTarget* target);
 	bool getAdvanceLevel() const;
 protected:
+	void constructLevel(sf::Font* font);
+
+	void baseStartLevel(EntityManager* entityManager, ResourceManager<sf::Texture, std::string>* resourceManager, ParticleEngine* particleEngine);
+	sf::Font* font_;
+
+	bool finished;
+
 	int guard_limit_;
 	virtual void won();
+	virtual void lost();
+	virtual void overkilled();
+
+	sf::RectangleShape lostOverlay;
+	sf::Text lostText1;
+	sf::Text lostText2;
+	sf::Text lostText3;
+
+	sf::RectangleShape killOverlay;
+	sf::Text killText1;
+	sf::Text killText2;
+	sf::Text killText3;
+	sf::Text killText4;
+	sf::Text killText5;
+
+	bool overkill;
+	int killTimer;
+
+	sf::Text wonText1;
+	sf::Text wonText2;
+
+	sf::Text messageText;
+
+	void displayMessage(std::string text);
+	bool disp_message;
+	int messageTimer;
+
+	bool gameLost;
+	int lostTimer;
+
 	Player* player_;
 	Serum* serum_;
 	void loadFromImage(std::string textureName);

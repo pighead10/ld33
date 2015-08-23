@@ -9,6 +9,9 @@ EntityManager::EntityManager(){
 	shake_timer = 0;
 	shake_length = 0;
 	deadGuards = 0;
+	playerDead = false;
+
+	//initialise background
 }
 
 EntityManager::~EntityManager() = default;
@@ -25,6 +28,15 @@ void EntityManager::clear(){
 	entities_.clear();
 	push_queue_.clear();
 	deadGuards = 0;
+	playerDead = false;
+}
+
+void EntityManager::playerDied(){
+	playerDead = true;
+}
+
+bool EntityManager::isPlayerDead() const{
+	return playerDead;
 }
 
 sfld::Vector2f EntityManager::convertCoords(sfld::Vector2f tilepos){
