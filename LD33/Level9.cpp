@@ -9,10 +9,12 @@
 #include "SwitchBlock.h"
 
 Level9::Level9(sf::Font* font){
+	levelnum_ = 9;
 	constructLevel(font);
 }
 
 void Level9::startLevel(EntityManager* entityManager, ResourceManager<sf::Texture, std::string>* resourceManager, ParticleEngine* particleEngine){
+	
 	baseStartLevel(entityManager, resourceManager, particleEngine);
 	guard_limit_ = 4;
 

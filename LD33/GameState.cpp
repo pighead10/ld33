@@ -33,8 +33,7 @@ void GameState::start(){
 	font.loadFromFile("media/victor-pixel.ttf");
 
 	currentLevel_ = NULL;
-	entityManager_ = std::unique_ptr<EntityManager>(new EntityManager());
-	particleEngine_ = std::unique_ptr<ParticleEngine>(new ParticleEngine());
+	
 
 	resourceManager_.setDirectory("media/images/");
 	resourceManager_.load("player", "player.png");
@@ -51,6 +50,9 @@ void GameState::start(){
 	resourceManager_.load("serum", "serum.png");
 	resourceManager_.load("player_attacking", "player_attacking.png");
 	resourceManager_.load("backgroundtile", "backgroundtile.png");
+	resourceManager_.load("ragebar","hud/rage_bar.png");
+	resourceManager_.load("rageoutline","hud/rage_outline.png");
+	resourceManager_.load("monsterbar", "hud/monster_bar.png");
 
 	resourceManager_.load("level1", "levels/level1.png");
 	resourceManager_.load("level2", "levels/level2.png");
@@ -62,6 +64,9 @@ void GameState::start(){
 	resourceManager_.load("level8", "levels/level8.png");
 	resourceManager_.load("level9", "levels/level9.png");
 	resourceManager_.load("level10", "levels/level10.png");
+
+	entityManager_ = std::unique_ptr<EntityManager>(new EntityManager(&resourceManager_));
+	particleEngine_ = std::unique_ptr<ParticleEngine>(new ParticleEngine());
 
 	levels_.push_back(std::unique_ptr<Level>(new Level1(&font)));
 	levels_.push_back(std::unique_ptr<Level>(new Level2(&font)));

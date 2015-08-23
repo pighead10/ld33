@@ -20,6 +20,10 @@ public:
 	virtual void render(sf::RenderTarget* target);
 	bool getAdvanceLevel() const;
 protected:
+	void setGuardText();
+	void updateRagebar();
+
+	int levelnum_;
 	void constructLevel(sf::Font* font);
 
 	void baseStartLevel(EntityManager* entityManager, ResourceManager<sf::Texture, std::string>* resourceManager, ParticleEngine* particleEngine);
@@ -43,6 +47,14 @@ protected:
 	sf::Text killText3;
 	sf::Text killText4;
 	sf::Text killText5;
+
+	sf::Text levelText;
+	sf::Text guardText;
+	sf::Sprite guardspr;
+	sf::Sprite ragebar;
+	sf::Sprite rageoutline;
+
+	sf::Sprite monsterbar;
 
 	bool overkill;
 	int killTimer;

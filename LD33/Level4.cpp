@@ -4,10 +4,12 @@
 #include "EntityManager.h"
 
 Level4::Level4(sf::Font* font){
+	levelnum_ = 4;
 	constructLevel(font);
 }
 
 void Level4::startLevel(EntityManager* entityManager, ResourceManager<sf::Texture, std::string>* resourceManager, ParticleEngine* particleEngine){
+	
 	baseStartLevel(entityManager, resourceManager, particleEngine);
 	loadFromImage("level4");
 	displayMessage("Time your transformations!");

@@ -11,6 +11,16 @@ health_(100),particleEngine_(particleEngine){
 	immune = false;
 }
 
+float Player::getMonsterPercent() const{
+	if (!isMonster()){
+		return (move_timer / (float)monster_threshold);
+	}
+	else{
+		int n = max_monster - monster_timer;
+		return (n/(float)max_monster);
+	}
+}
+
 void Player::damaged(int amount){
 	if (!immune){
 		health_ -= amount;

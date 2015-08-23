@@ -12,7 +12,10 @@ public:
 	bool isMonster() const;
 	void damaged(int amount);
 	bool immune;
+	float getMonsterPercent() const;
 private:
+	
+
 	void attack();
 
 	void turnIntoMonster();

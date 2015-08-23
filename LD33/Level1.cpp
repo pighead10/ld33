@@ -2,6 +2,7 @@
 #include "Level1.h"
 
 Level1::Level1(sf::Font* font){
+	levelnum_ = 1;
 	constructLevel(font);
 }
 

@@ -17,6 +17,7 @@ int SoundManager::fxVolume = 50;
 SoundManager::~SoundManager(){
 }
 
+
 void SoundManager::playUnique(const std::string& name,bool loop,int volume){
 	if(!nulled){
 		std::map<std::string,sf::SoundBuffer>::iterator results = soundbuffers.find(name);

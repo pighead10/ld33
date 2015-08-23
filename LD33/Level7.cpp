@@ -9,6 +9,7 @@
 #include "SwitchBlock.h"
 
 Level7::Level7(sf::Font* font){
+	levelnum_ = 7;
 	constructLevel(font);
 }
 
@@ -17,6 +18,7 @@ void Level7::sfmlEvent(sf::Event evt){
 }
 
 void Level7::startLevel(EntityManager* entityManager, ResourceManager<sf::Texture, std::string>* resourceManager, ParticleEngine* particleEngine){
+	
 	baseStartLevel(entityManager, resourceManager, particleEngine);
 	guard_limit_ = 0;
 

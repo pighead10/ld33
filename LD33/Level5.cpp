@@ -6,10 +6,12 @@
 #include "Switch.h"
 
 Level5::Level5(sf::Font* font){
+	levelnum_ = 5;
 	constructLevel(font);
 }
 
 void Level5::startLevel(EntityManager* entityManager, ResourceManager<sf::Texture, std::string>* resourceManager, ParticleEngine* particleEngine){
+	
 	baseStartLevel(entityManager, resourceManager, particleEngine);
 	loadFromImage("level5");
 	displayMessage("Look! Button!");

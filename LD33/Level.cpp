@@ -57,6 +57,10 @@ void Level::constructLevel(sf::Font* font){
 
 	messageText = sf::Text("", *font, 50);
 	messageText.setColor(sf::Color::White);
+
+	levelText = sf::Text("Level: " + std::to_string(levelnum_),*font,30);
+	levelText.setPosition(sfld::Vector2f(50, 25));
+	
 }
 
 void Level::displayMessage(std::string text){
@@ -110,7 +114,13 @@ void Level::overkilled(){
 	}
 }
 
+void Level::setGuardText(){
+	guardText.setString(std::to_string(entityManager_->getDeadGuards()) + " / " + std::to_string(guard_limit_));
+}
+
 void Level::update(int frameTime){
+	setGuardText();
+	updateRagebar();
 	particleEngine_->update(frameTime);
 	//if (!finished){
 		entityManager_->update(frameTime);
@@ -165,10 +175,36 @@ void Level::baseStartLevel(EntityManager* entityManager, ResourceManager<sf::Tex
 	disp_message = false;
 	messageTimer = 0;
 	overkill = false;
+
+	guardspr = sf::Sprite(resourceManager_->get("guard"));
+	guardspr.setScale(1.5f, 1.5f);
+	guardspr.setPosition(780, 15);
+	guardText = sf::Text("0 / 0", *font_, 30);
+	guardText.setColor(sf::Color::White);
+	guardText.setPosition(850, 25);
+
+	rageoutline = sf::Sprite(resourceManager_->get("rageoutline"));
+	rageoutline.setPosition(SFLD::window_->getSize().x / 2 - rageoutline.getLocalBounds().width / 2, 25);
+	ragebar = sf::Sprite(resourceManager_->get("ragebar"));
+	ragebar.setPosition(rageoutline.getPosition());
+
+	monsterbar = sf::Sprite(resourceManager_->get("monsterbar"));
+	monsterbar.setPosition(rageoutline.getPosition());
 }
 
 void Level::startLevel(EntityManager* entityManager,ResourceManager<sf::Texture,std::string>* resourceManager,ParticleEngine* particleEngine){
 	baseStartLevel(entityManager, resourceManager, particleEngine);
+}
+
+void Level::updateRagebar(){
+	float perc = player_->getMonsterPercent();
+	
+	sf::IntRect rect = sf::IntRect(0, 0, 256 * perc, 32);
+	ragebar.setTextureRect(rect);
+	ragebar.setPosition(rageoutline.getPosition());
+
+	monsterbar.setTextureRect(rect);
+	monsterbar.setPosition(rageoutline.getPosition());
 }
 
 void Level::render(sf::RenderTarget* target){
@@ -198,7 +234,16 @@ void Level::render(sf::RenderTarget* target){
 	if (disp_message){
 		target->draw(messageText);
 	}
-	
+	target->draw(guardText);
+	target->draw(guardspr);
+	target->draw(levelText);
+	if (player_->isMonster()){
+		target->draw(monsterbar);
+	}
+	else{
+		target->draw(ragebar);
+	}
+	target->draw(rageoutline);
 }
 
 void Level::loadFromImage(std::string textureName){

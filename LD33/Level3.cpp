@@ -2,10 +2,12 @@
 #include "Level3.h"
 
 Level3::Level3(sf::Font* font){
+	levelnum_ = 3;
 	constructLevel(font);
 }
 
 void Level3::startLevel(EntityManager* entityManager, ResourceManager<sf::Texture, std::string>* resourceManager, ParticleEngine* particleEngine){
+	
 	baseStartLevel(entityManager, resourceManager, particleEngine);
 	loadFromImage("level3");
 	displayMessage("Slaughter is unavoidable!");

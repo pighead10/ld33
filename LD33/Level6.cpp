@@ -7,6 +7,7 @@
 #include "Switch.h"
 
 Level6::Level6(sf::Font* font){
+	levelnum_ = 6;
 	constructLevel(font);
 }
 
@@ -15,6 +16,7 @@ void Level6::sfmlEvent(sf::Event evt){
 }
 
 void Level6::startLevel(EntityManager* entityManager, ResourceManager<sf::Texture, std::string>* resourceManager, ParticleEngine* particleEngine){
+	
 	baseStartLevel(entityManager, resourceManager, particleEngine);
 	guard_limit_ = 1;
 

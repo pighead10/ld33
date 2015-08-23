@@ -2,8 +2,9 @@
 #include "EntityManager.h"
 #include "Entity.h"
 #include "SFLD.h"
+#include "ResourceManager.h"
 
-EntityManager::EntityManager(){
+EntityManager::EntityManager(ResourceManager<sf::Texture, std::string>* resourceManager):resourceManager_(resourceManager){
 	view = SFLD::window_->getDefaultView();
 	in_shake = false;
 	shake_timer = 0;
@@ -11,7 +12,16 @@ EntityManager::EntityManager(){
 	deadGuards = 0;
 	playerDead = false;
 
+	background.create(SFLD::window_->getSize().x,SFLD::window_->getSize().y);
+
 	//initialise background
+	for (int x = 0; x < SFLD::window_->getSize().x; x += TILE_SIZE){
+		for (int y = 0; y < SFLD::window_->getSize().y; y += TILE_SIZE){
+			sf::Sprite spr(resourceManager_->get("backgroundtile"));
+			spr.setPosition(x, y);
+			background.draw(spr);
+		}
+	}
 }
 
 EntityManager::~EntityManager() = default;
@@ -85,6 +95,9 @@ void EntityManager::update(int frameTime){
 }
 
 void EntityManager::render(sf::RenderTarget* target){
+	background.display();
+	sf::Sprite spr(background.getTexture());
+	target->draw(spr);
 	for (auto& it : entities_){
 		it->render(target);
 	}

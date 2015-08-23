@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
+#include "ResourceManager.h"
 
 #define TILE_SIZE 32
 
@@ -10,7 +11,7 @@ typedef std::vector<std::unique_ptr<Entity>> EntityList;
 
 class EntityManager{
 public:
-	EntityManager();
+	EntityManager(ResourceManager<sf::Texture,std::string>* resourceManager);
 	~EntityManager();
 
 	void addEntity(Entity* entity);
@@ -30,6 +31,7 @@ public:
 	void playerDied();
 	bool isPlayerDead() const;
 private:
+	ResourceManager<sf::Texture, std::string>* resourceManager_;
 	sf::RenderTexture background;
 	bool playerDead;
 	int deadGuards;
