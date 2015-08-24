@@ -118,13 +118,19 @@ void Player::update(int frameTime){
 		}
 		if (transitiontimer >= 500){
 			if (state_ == STATE_MONSTER){
-				sprite_.setTexture(resourceManager_->get("player_monster"), true);
+				if (!rotating_){
+					sprite_.setTexture(resourceManager_->get("player_monster"), true);
+				}
+				else{
+					sprite_.setTexture(resourceManager_->get("player_attacking"), true);
+				}
 				centreOrigin();
 			}
 			else if (state_ == STATE_NORMAL){
 				sprite_.setTexture(resourceManager_->get("player"), true);
 				centreOrigin();
 			}
+			transition = false;
 		}
 	}
 	

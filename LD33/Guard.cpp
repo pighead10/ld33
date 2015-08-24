@@ -12,10 +12,12 @@ Guard::Guard(ResourceManager<sf::Texture, std::string>* resourceManager, EntityM
 }
 
 void Guard::fire(sfld::Vector2f dir){
-	SoundManager::play("shoot");
-	reload_timer = 0;
-	Projectile* projectile = new Projectile(resourceManager_, entityManager_, "projectile", getPosition(), dir, 1.5f, particleEngine_, TYPE_PLAYER, 100);
-	entityManager_->addEntity(projectile);
+	if (!entityManager_->isPlayerDead()){
+		SoundManager::play("shoot");
+		reload_timer = 0;
+		Projectile* projectile = new Projectile(resourceManager_, entityManager_, "projectile", getPosition(), dir, 1.0f, particleEngine_, TYPE_PLAYER, 100);
+		entityManager_->addEntity(projectile);
+	}
 }
 
 void Guard::update(int frameTime){

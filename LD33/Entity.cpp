@@ -106,30 +106,33 @@ bool Entity::contains(sfld::Vector2f point) const{
 }
 
 bool Entity::canSee(Entity* other) const{
-	std::vector<sfld::Vector2f> point_list;
-	sfld::Vector2f dir = sfld::Vector2f(other->getPosition() - getPosition()).normalise();
-	float increment = (float)TILE_SIZE*0.5f;
-	sfld::Vector2f point = getPosition();
-	float dist = sfld::Vector2f(other->getPosition() - getPosition()).length();
-	
-	while (dist > 0){ //BUG!
-		point = point + increment*dir;
-		point_list.push_back(point);
-		dist -= increment;
-	}
+	if (sfld::Vector2f(other->getPosition() - getPosition()).length() <= 24 * TILE_SIZE){
+		std::vector<sfld::Vector2f> point_list;
+		sfld::Vector2f dir = sfld::Vector2f(other->getPosition() - getPosition()).normalise();
+		float increment = (float)TILE_SIZE*0.5f;
+		sfld::Vector2f point = getPosition();
+		float dist = sfld::Vector2f(other->getPosition() - getPosition()).length();
 
-	EntityList* entity_list = entityManager_->getEntities();
-	for(auto& point : point_list){
-		for (auto& it : *entity_list){
-			//todo: assign range?
-			if (!it->isSeethrough()){
-				if (it->contains(point)){
-					return false;
+		while (dist > 0){ //BUG!
+			point = point + increment*dir;
+			point_list.push_back(point);
+			dist -= increment;
+		}
+
+		EntityList* entity_list = entityManager_->getEntities();
+		for (auto& point : point_list){
+			for (auto& it : *entity_list){
+				//todo: assign range?
+				if (!it->isSeethrough()){
+					if (it->contains(point)){
+						return false;
+					}
 				}
 			}
 		}
+		return true;
 	}
-	return true;
+	return false;
 }
 
 void Entity::move(sfld::Vector2f direction, int frameTime, float magnitude){

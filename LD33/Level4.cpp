@@ -13,7 +13,7 @@ void Level4::startLevel(EntityManager* entityManager, ResourceManager<sf::Textur
 	baseStartLevel(entityManager, resourceManager, particleEngine);
 	loadFromImage("level4");
 	displayMessage("Time your transformations!");
-	guard_limit_ = 1;
+	guard_limit_ = 2;
 
 	std::vector<std::pair<sfld::Vector2f, int>> dirList;
 	dirList.push_back(std::make_pair(sfld::Vector2f(0, 1), 2000));
