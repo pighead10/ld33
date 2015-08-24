@@ -36,6 +36,11 @@ protected:
 	virtual void lost();
 	virtual void overkilled();
 
+	bool wasmonster;
+	sf::RectangleShape monsterOverlay;
+	bool transitioning;
+	int transitiontimer;
+
 	sf::RectangleShape lostOverlay;
 	sf::Text lostText1;
 	sf::Text lostText2;

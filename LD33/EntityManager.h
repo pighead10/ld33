@@ -6,8 +6,10 @@
 #define TILE_SIZE 32
 
 class Entity;
+class ParticleEngine;
 
 typedef std::vector<std::unique_ptr<Entity>> EntityList;
+
 
 class EntityManager{
 public:
@@ -18,7 +20,7 @@ public:
 	EntityList* getEntities();
 
 	void update(int frametime);
-	void render(sf::RenderTarget* target);
+	void render(sf::RenderTarget* target,ParticleEngine* particleEngine);
 
 	void clear();
 

@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "EntityManager.h"
 #include "SwitchBlock.h"
+#include "SoundManager.h"
 
 Switch::Switch(ResourceManager<sf::Texture, std::string>* resourceManager, EntityManager* entityManager, sfld::Vector2f position, std::vector<SwitchBlock*> connected_entities,Player* player)
 :connected_blocks_(connected_entities),enabled_(false),player_(player){
@@ -15,9 +16,11 @@ void Switch::change(){
 	}
 	enabled_ = !enabled_;
 	if (enabled_){
+		SoundManager::play("switchon");
 		sprite_.setTexture(resourceManager_->get("switch_on"));
 	}
 	else{
+		SoundManager::play("switchoff");
 		sprite_.setTexture(resourceManager_->get("switch_off"));
 	}
 }

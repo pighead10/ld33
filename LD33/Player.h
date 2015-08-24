@@ -14,7 +14,10 @@ public:
 	bool immune;
 	float getMonsterPercent() const;
 private:
-	
+	bool t2;
+	bool transition;
+	int transitioncount;
+	int transitiontimer;
 
 	void attack();
 

@@ -8,6 +8,7 @@
 #include "ParticleEngine.h"
 #include "SFLD.h"
 #include "Explosive.h"
+#include "SoundManager.h"
 
 Level::Level() = default;
 Level::~Level() = default;
@@ -52,6 +53,9 @@ void Level::constructLevel(sf::Font* font){
 	wonText1.setPosition(SFLD::window_->getSize().x / 2 - wonText1.getLocalBounds().width / 2, SFLD::window_->getSize().y / 2 - wonText1.getLocalBounds().height / 2);
 	wonText1.setColor(sf::Color::White);
 	wonText2 = sf::Text("'Y' to advance", *font, 50);
+	if (levelnum_ == 10){
+		wonText2.setString("That's it! You won!");
+	}
 	wonText2.setPosition(SFLD::window_->getSize().x / 2 - wonText2.getLocalBounds().width / 2, wonText1.getPosition().y + 100);
 	wonText2.setColor(sf::Color::White);
 
@@ -60,7 +64,13 @@ void Level::constructLevel(sf::Font* font){
 
 	levelText = sf::Text("Level: " + std::to_string(levelnum_),*font,30);
 	levelText.setPosition(sfld::Vector2f(50, 25));
-	
+
+	monsterOverlay = sf::RectangleShape(sfld::Vector2f(SFLD::window_->getSize().x, SFLD::window_->getSize().y));
+	monsterOverlay.setFillColor(sf::Color(255, 0, 0, 0));
+
+	transitioning = false;
+	transitiontimer = 0;
+	wasmonster = false;
 }
 
 void Level::displayMessage(std::string text){
@@ -99,8 +109,11 @@ bool Level::getAdvanceLevel() const{
 }
 
 void Level::won(){
-	player_->immune = true;
-	finished = true;
+	if (!finished){
+		SoundManager::play("won");
+		player_->immune = true;
+		finished = true;
+	}
 }
 
 void Level::lost(){
@@ -123,8 +136,33 @@ void Level::update(int frameTime){
 	updateRagebar();
 	particleEngine_->update(frameTime);
 	//if (!finished){
-		entityManager_->update(frameTime);
+	entityManager_->update(frameTime);
 	//}
+	if (player_->isMonster() && !wasmonster){
+		wasmonster = true;
+		transitioning = true;
+		transitiontimer = 0;
+	}
+	else if (wasmonster && !player_->isMonster()){
+		wasmonster = false;
+		transitioning = true;
+		transitiontimer = 0;
+	}
+
+	if (transitioning){
+		transitiontimer += frameTime;
+		transitiontimer = (transitiontimer > 500 ? 500 : transitiontimer);
+		if (wasmonster){
+			monsterOverlay.setFillColor(sf::Color(255, 0, 0, (transitiontimer / 500.0f)*30.0f));
+		}
+		else{
+			monsterOverlay.setFillColor(sf::Color(255, 0, 0, ((500-transitiontimer) / 500.0f)*30.0f));
+			if (transitiontimer >= 500){
+				transitioning = false;
+			}
+		}
+	}
+
 	if (serum_->hasCollected()){
 		if (entityManager_->getDeadGuards() <= guard_limit_){
 			won();
@@ -208,8 +246,7 @@ void Level::updateRagebar(){
 }
 
 void Level::render(sf::RenderTarget* target){
-	particleEngine_->renderStatics(target);
-	entityManager_->render(target);
+	entityManager_->render(target,particleEngine_);
 	particleEngine_->renderParticles(target);
 	
 	if (gameLost){
@@ -244,6 +281,9 @@ void Level::render(sf::RenderTarget* target){
 		target->draw(ragebar);
 	}
 	target->draw(rageoutline);
+	if (transitioning){
+		target->draw(monsterOverlay);
+	}
 }
 
 void Level::loadFromImage(std::string textureName){

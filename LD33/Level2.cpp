@@ -10,6 +10,6 @@ void Level2::startLevel(EntityManager* entityManager, ResourceManager<sf::Textur
 	
 	baseStartLevel(entityManager, resourceManager, particleEngine);
 	loadFromImage("level2");
-	displayMessage("Don't get seen as a monster!");
+	displayMessage("Don't get seen as a Crythrope!");
 	guard_limit_ = 0;
 }

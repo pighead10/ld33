@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SFLD.h"
 #include "SoundManager.h"
-#include "GameState.h"
+#include "MenuState.h"
 
 std::unique_ptr<sf::RenderWindow> SFLD::window_ = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow());
 
@@ -26,7 +26,7 @@ void SFLD::init(){
 	exit_ = false;
 	sf::VideoMode vm(1024,768); //32x24
 	window_->create(vm,"Ludum Dare 33");
-	stateManager_.push(new GameState()); //push starting state!
+	stateManager_.push(new MenuState()); //push starting state!
 }
 
 

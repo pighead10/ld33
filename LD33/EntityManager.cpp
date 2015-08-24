@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "SFLD.h"
 #include "ResourceManager.h"
+#include "ParticleEngine.h"
 
 EntityManager::EntityManager(ResourceManager<sf::Texture, std::string>* resourceManager):resourceManager_(resourceManager){
 	view = SFLD::window_->getDefaultView();
@@ -94,10 +95,12 @@ void EntityManager::update(int frameTime){
 	}
 }
 
-void EntityManager::render(sf::RenderTarget* target){
+void EntityManager::render(sf::RenderTarget* target,ParticleEngine* particleEngine){
 	background.display();
+
 	sf::Sprite spr(background.getTexture());
 	target->draw(spr);
+	particleEngine->renderStatics(target);
 	for (auto& it : entities_){
 		it->render(target);
 	}

@@ -4,6 +4,7 @@
 #include "EntityManager.h"
 #include "Projectile.h"
 #include "Player.h"
+#include "SoundManager.h"
 
 Guard::Guard(ResourceManager<sf::Texture, std::string>* resourceManager, EntityManager* entityManager, sfld::Vector2f position, Player* player, ParticleEngine* particleEngine, std::vector<std::pair<sfld::Vector2f, int>> dirList) :alert_(false),
 	player_(player),health_(100),particleEngine_(particleEngine),ideal_dist(5*TILE_SIZE),reload_timer(200),reload_threshold(500),speed_(0.25f),dirList_(dirList),dirnum_(0),dirtimer_(0){
@@ -11,6 +12,7 @@ Guard::Guard(ResourceManager<sf::Texture, std::string>* resourceManager, EntityM
 }
 
 void Guard::fire(sfld::Vector2f dir){
+	SoundManager::play("shoot");
 	reload_timer = 0;
 	Projectile* projectile = new Projectile(resourceManager_, entityManager_, "projectile", getPosition(), dir, 1.5f, particleEngine_, TYPE_PLAYER, 100);
 	entityManager_->addEntity(projectile);
@@ -60,6 +62,7 @@ void Guard::update(int frameTime){
 void Guard::damaged(int amount){
 	health_ -= amount;
 	if (health_ <= 0){
+	SoundManager::play("enemydead");
 		particleEngine_->generateBloodEffect(getPosition());
 		entityManager_->guardDied();
 		destroy();

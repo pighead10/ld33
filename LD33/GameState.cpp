@@ -14,6 +14,7 @@
 #include "Level8.h"
 #include "Level9.h"
 #include "Level10.h"
+#include "SoundManager.h"
 
 GameState::GameState() = default;
 GameState::~GameState() = default;
@@ -23,7 +24,7 @@ void GameState::sfmlEvent(sf::Event evt){
 		//if (evt.type == sf::Event::KeyReleased)
 		currentLevel_->sfmlEvent(evt);
 	}
-	if (evt.type == sf::Event::Closed){
+	if (evt.type == sf::Event::Closed || (evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Escape)){
 		getParent().pop();
 	}
 }
@@ -53,6 +54,8 @@ void GameState::start(){
 	resourceManager_.load("ragebar","hud/rage_bar.png");
 	resourceManager_.load("rageoutline","hud/rage_outline.png");
 	resourceManager_.load("monsterbar", "hud/monster_bar.png");
+	resourceManager_.load("transition1", "transition.png");
+	resourceManager_.load("transition2", "transition2.png");
 
 	resourceManager_.load("level1", "levels/level1.png");
 	resourceManager_.load("level2", "levels/level2.png");
@@ -64,6 +67,23 @@ void GameState::start(){
 	resourceManager_.load("level8", "levels/level8.png");
 	resourceManager_.load("level9", "levels/level9.png");
 	resourceManager_.load("level10", "levels/level10.png");
+
+	SoundManager::add("attack", "media/sound/attack.wav");
+	SoundManager::add("died", "media/sound/died.wav");
+	SoundManager::add("enemydead", "media/sound/enemydead.wav");
+	SoundManager::add("explosion", "media/sound/explosion.wav");
+	SoundManager::add("hit", "media/sound/hit.wav");
+	SoundManager::add("intohuman", "media/sound/intohuman.wav");
+	SoundManager::add("intomonster", "media/sound/intomonster.wav");
+	SoundManager::add("shoot", "media/sound/shoot.wav");
+	SoundManager::add("switchoff", "media/sound/switchoff.wav");
+	SoundManager::add("switchon", "media/sound/switchon.wav");
+	SoundManager::add("won", "media/sound/won.wav");
+
+	SoundManager::addMusic("game", "media/music/gamemusic.ogg");
+	
+
+	SoundManager::playMusic("game");
 
 	entityManager_ = std::unique_ptr<EntityManager>(new EntityManager(&resourceManager_));
 	particleEngine_ = std::unique_ptr<ParticleEngine>(new ParticleEngine());
